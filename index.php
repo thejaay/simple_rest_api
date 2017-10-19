@@ -1,15 +1,14 @@
 <?php
+
 include('tools/Utils.class.php');
-//@TODO => AUTOLOAD !!!
-include('class/User.class.php');
-include('class/Song.class.php');
 
 /* List of all authorized plugins */
 $authorized_plugins = array
 (
-/* 'api_item' => ClassName*/
+/* 'api_item' => ClassName */
  'user' => User,
- 'song' => Song
+ 'song' => Song,
+ 'favlist' => FavList
 );
 
 $params = $_GET;
@@ -26,4 +25,9 @@ else
 {
 
 }
+
+function __autoload($ClassName) {
+    include('class/'.$ClassName.'.class.php');
+}
+
 ?>

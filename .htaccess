@@ -1,0 +1,3 @@
+## Rewrite API URL to be more friendly
+RewriteEngine On
+RewriteRule api/([a-z]+)/(.*) index.php?cmd=$1&params=$2

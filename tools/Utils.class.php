@@ -2,9 +2,7 @@
 
 class Utils
 {
-  /**
 
-  **/
   function combineParameters($param, $array)
   {
     $outputArray = array();
