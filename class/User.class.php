@@ -31,22 +31,30 @@ class User extends Plugin_Base
 
     /**
      * Process the info subcommand.
-     * This is the default subcommand for /user/ command
+     * Subcommand URL : /api/user/id
      * @param array $data Associative array containing the user id
      */
     function processSubCmdInfos($data)
     {
       if($data['id'])
       {
-        echo "INFOS CHANSON:<br/>";
+        echo "INFOS USER:<br/>";
         print_r($data);
       }
     }
     
+    /**
+     * Process the favorite songs subcommand.
+     * Subcommand URL : /api/user/id/favlist
+     * @param array $data Associative array containing the user id
+     */    
     function processSubCmdFavSongs($data)
     {
-      echo "CHANSONS FAVORIS:<br/>";
-      print_r($data);
+      if($data['id'])
+      {
+        echo "INFOS USER:<br/>";
+        print_r($data);
+      }
     }
 }
 
