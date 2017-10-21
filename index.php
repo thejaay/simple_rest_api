@@ -2,13 +2,16 @@
 
 include('tools/Utils.class.php');
 
+Utils::loadClasses();
+PersistentAbstraction::setConnector(new MySQLConnector());
+
 /* List of all authorized plugins */
 $authorized_plugins = array
 (
 /* 'api_command' => ClassName */
- 'user' => User,
- 'song' => Song,
- 'favlist' => FavList
+ 'user' => UserPlugin,
+ 'song' => SongPlugin,
+ 'favlist' => FavListPlugin
 );
 
 $params = $_GET;
@@ -33,7 +36,7 @@ else
  * @param String $ClassName Name of the class to be loaded
  */
 function __autoload($ClassName) {
-    include('class/'.$ClassName.'.class.php');
+    include('plugins/'.$ClassName.'.class.php');
 }
 
 ?>

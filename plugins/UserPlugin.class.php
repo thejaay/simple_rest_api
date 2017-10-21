@@ -10,7 +10,7 @@ require_once('Plugin_Base.class.php');
  * @author Jaay
  *
  */
-class User extends Plugin_Base
+class UserPlugin extends Plugin_Base
 {
     /** Parameters for that command in the correct order
      * http://....../api/user/id/(subcmd) */

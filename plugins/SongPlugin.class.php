@@ -9,7 +9,7 @@ require_once('Plugin_Base.class.php');
  * @author Jaay
  *
  */
-class Song extends Plugin_Base
+class SongPlugin extends Plugin_Base
 {
     /** Parameters for that command in the correct order
      * http://....../api/song/id/(subcmd) */

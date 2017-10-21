@@ -10,7 +10,7 @@ require_once('Plugin_Base.class.php');
  * @author Jaay
  *
  */
-class FavList extends Plugin_Base
+class FavListPlugin extends Plugin_Base
 {
     /** Parameters for that command in the correct order
      * http://....../api/favlist/id/subcmd/id_song */
