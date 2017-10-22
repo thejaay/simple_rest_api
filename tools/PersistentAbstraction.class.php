@@ -1,25 +1,35 @@
 <?php
 
 include('Connectors/Connector_Base.class.php');
-include('../Objects/PersistentObject.class.php');
+include('/objects/PersistentObject.class.php');
 
-static class PersistentAbstraction
+class PersistentAbstraction
 {
-	private static Connector_Base $_connector;
+	public static $connector;
 	
-	public static function setConnector(Connector_Base $connector)
+	public static function setConnector(Connector_Base $connec)
 	{
-		$this->_connector = $connector;
+		PersistentAbstraction::$connector = $connec;
 	}
 	
-	public static function saveObject(PersistentObject $persistentObject)
+	public static function getConnector()
 	{
-		$this->_connector->save($persistentObject);
+		return PersistentAbstraction::$connector;
 	}
 	
 	public static function getObject(PersistentObject $persistentObjectClass, array $params)
 	{
-		return $this->_connector->get($persistentObject);
+		return PersistentAbstraction::getConnector()->get($persistentObjectClass, $params);
+	}	
+
+	public static function addObject(PersistentObject $persistentObjectClass)
+	{
+		return PersistentAbstraction::getConnector()->add($persistentObjectClass);
+	}	
+	
+	public static function deleteObject(PersistentObject $persistentObjectClass, array $params)
+	{
+		return PersistentAbstraction::getConnector()->delete($persistentObjectClass, $params);
 	}	
 }
 

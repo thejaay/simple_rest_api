@@ -1,6 +1,7 @@
 <?php
 
 require_once('Plugin_Base.class.php');
+require_once('/objects/SongObject.class.php');
 
 /**
  * Hold song commands processing, including the following :
@@ -19,11 +20,18 @@ class SongPlugin extends Plugin_Base
     {
       $data = explode("/", $params);
       $data = Utils::combineParameters($data, $this->_parameters_array);
-      switch($data['subcmd'])
+      if(isset($data['subcmd']))
       {
-        default : 
-            $this->processSubCmdInfos($data);break;
+	      switch($data['subcmd'])
+	      {
+	        default : 
+	            $this->processSubCmdInfos($data);break;
+	      }
       }
+      else
+      {
+      	$this->processSubCmdInfos($data);
+      }      
     }
 
     /**
@@ -33,11 +41,12 @@ class SongPlugin extends Plugin_Base
      */
     function processSubCmdInfos($data)
     {
-      if($data['id'])
-      {
-        echo "INFOS CHANSON:<br/>";
-        print_r($data);
-      }
+      	$objectList = PersistentAbstraction::getObject(new SongObject(), array(array('op1' => 'id', 'operator' => '=', 'op2' => $data['id'])));
+        if($objectList)
+        {
+	      	$singleObject = $objectList[0];
+	      	$this->printResult($singleObject->printableFormat());
+        }
     }
     
 }

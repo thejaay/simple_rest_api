@@ -1,6 +1,8 @@
 <?php
 
 require_once('Plugin_Base.class.php');
+require_once('/objects/UserObject.class.php');
+require_once('/objects/FavListObject.class.php');
 
 /**
  * Hold user commands processing, including the following :
@@ -20,12 +22,19 @@ class UserPlugin extends Plugin_Base
     {
       $data = explode("/", $params);
       $data = Utils::combineParameters($data, $this->_parameters_array);
-      switch($data['subcmd'])
+      if(isset($data['subcmd']))
       {
-        case 'favlist' : 
-            $this->processSubCmdFavSongs($data);break;
-        default : 
-            $this->processSubCmdInfos($data);break;
+	      switch($data['subcmd'])
+	      {
+	        case 'favlist' : 
+	            $this->processSubCmdFavSongs($data);break;
+	        default : 
+	            $this->processSubCmdInfos($data);break;
+	      }
+      }
+      else
+      {
+      	$this->processSubCmdInfos($data);
       }
     }
 
@@ -36,11 +45,12 @@ class UserPlugin extends Plugin_Base
      */
     function processSubCmdInfos($data)
     {
-      if($data['id'])
-      {
-        echo "INFOS USER:<br/>";
-        print_r($data);
-      }
+      	$objectList = PersistentAbstraction::getObject(new UserObject(), array(array('op1' => 'id', 'operator' => '=', 'op2' => $data['id'])));
+        if($objectList)
+        {
+	      	$singleObject = $objectList[0];
+	      	$this->printResult($singleObject->printableFormat());
+        }
     }
     
     /**
@@ -50,11 +60,16 @@ class UserPlugin extends Plugin_Base
      */    
     function processSubCmdFavSongs($data)
     {
-      if($data['id'])
-      {
-        echo "INFOS USER:<br/>";
-        print_r($data);
-      }
+    	$objectList = PersistentAbstraction::getObject(new FavListObject(), array(array('op1' => 'id_user', 'operator' => '=', 'op2' => $data['id'])));
+        if($objectList)
+        {
+        	$songList = array();
+	      	foreach ($objectList as $singleObject)
+	      	{
+	      		$songList[] = $singleObject->printableFormat();
+	      	}
+	      	$this->printResult($songList);	
+        }
     }
 }
 

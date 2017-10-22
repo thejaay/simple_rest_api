@@ -10,21 +10,26 @@ class Utils
 {
 
   /**
-   * Combine 2 array to make one associative array. This isused to fill parameters
+   * Combine 2 array to make one associative array. This is used to fill parameters
    * from a given URL
    * 
    * @param array $param Array containing the parameters
    * @param array $keys Array containing the keys
    * @return array Associative array combining the 2 arrays
    */
-  function combineParameters($param, $keys)
+  public static function combineParameters($param, $keys)
   {
     $outputArray = array();
-    for($i=0; $i<count($keys); $i++)
+    for($i = 0; $i < min(count($keys), count($param)); $i++)
     {
       $outputArray[$keys[$i]] = $param[$i];
     }
     return $outputArray;
+  } 
+  
+  public static function loadClasses()
+  {
+  	include("PersistentAbstraction.class.php");
   }
 }
 

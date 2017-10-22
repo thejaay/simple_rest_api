@@ -1,6 +1,7 @@
 <?php
 
 require_once('Plugin_Base.class.php');
+require_once('/objects/FavListObject.class.php');
 
 /**
  * Hold favorite list commands processing, including the following :
@@ -25,7 +26,7 @@ class FavListPlugin extends Plugin_Base
       	case 'delete' : 
             $this->processSubCmdDeleteSong($data);break;
       	case 'add' : 
-            $this->processSubCmdAddSong($data);break;            
+            $this->processSubCmdAddSong($data);break;
       }
     }
 
@@ -40,11 +41,10 @@ class FavListPlugin extends Plugin_Base
     
     function processSubCmdAddSong($data)
     {
-      if($data['id'])
-      {
-        echo "ADD CHANSON:<br/>";
-        print_r($data);
-      }
+      $favListItem = new FavListObject();
+      $favListItem->createFromRaw('',$data['id'],$data['id_song']);
+
+      PersistentAbstraction::addObject($favListItem);
     }
 }
 

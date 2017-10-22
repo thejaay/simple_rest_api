@@ -13,10 +13,11 @@ abstract class Plugin_Base
 	 * @param String $params Parameters separated with '/' as given in the URL
 	 */
     abstract protected function processCommand($params);
-
+    
     function printResult($data)
     {
-      echo "PLUGIN_BASE_".$data;
+      header("Content-type:application/json");
+      echo json_encode($data);
     }
 }
 

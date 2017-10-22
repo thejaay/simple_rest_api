@@ -9,9 +9,9 @@ PersistentAbstraction::setConnector(new MySQLConnector());
 $authorized_plugins = array
 (
 /* 'api_command' => ClassName */
- 'user' => UserPlugin,
- 'song' => SongPlugin,
- 'favlist' => FavListPlugin
+ 'user' => 'UserPlugin',
+ 'song' => 'SongPlugin',
+ 'favlist' => 'FavListPlugin'
 );
 
 $params = $_GET;
