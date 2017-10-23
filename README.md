@@ -10,6 +10,7 @@ The "tools" folder contains various utilities, feel free to add your own handy f
 
 @TODO List :
 - Only simple queries can be performed with the MySQL Connector, to perform complex queries (join for example) the Persistent layer should be redesigned.
-- Everything is GET request, we should manage POSTi, PUT and DELETE requests
+- Everything is GET request, we should manage POST, PUT and DELETE requests
 - Better class loading
 - Introspection on objects members to avoid duplicating code
+- Better error codes

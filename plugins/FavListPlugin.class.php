@@ -2,6 +2,7 @@
 
 require_once('Plugin_Base.class.php');
 require_once('/objects/FavListObject.class.php');
+require_once('/objects/SongObject.class.php');
 
 /**
  * Hold favorite list commands processing, including the following :
@@ -17,15 +18,15 @@ class FavListPlugin extends Plugin_Base
 
     /* Availables commands */
     private $_commands = array (
-                /^(?P<id>[0-9]+)$/ => 'processSubCmdFavList',
-                /^(?P<id>[0-9]+)\/(?P<subcmd>add)\/(?P<id_song>[0-9]+)$/ => 'processSubCmdAddSong',
-                /^(?P<id>[0-9]+)\/(?P<subcmd>delete)\/(?P<id_song>[0-9]+)$/ => 'processSubCmdDeleteSong'
+                "/^(?P<id>[0-9]+)$/" => 'processSubCmdFavList',
+                "/^(?P<id>[0-9]+)\/(?P<subcmd>add)\/(?P<id_song>[0-9]+)$/" => 'processSubCmdAddSong',
+                "/^(?P<id>[0-9]+)\/(?P<subcmd>delete)\/(?P<id_song>[0-9]+)$/" => 'processSubCmdDeleteSong'
                 );
 
     /**
     * {@inheritDoc}
     */
-    function processCommand($params)
+    public function processCommand($params)
     {
       foreach(array_keys($this->_commands) as $regex)
       {
@@ -33,7 +34,8 @@ class FavListPlugin extends Plugin_Base
         preg_match($regex, $params, $output);
         if(!empty($output))
         {
-            $_commands[$regex]($output);
+            $function = $this->_commands[$regex];
+            $this->$function($output);
             break;
         }
       }
@@ -44,7 +46,7 @@ class FavListPlugin extends Plugin_Base
      * Subcommand URL : /api/favlist/{id_user}/delete/{id_song}
      * @param array $data Associative array containing the user id, and song id to delete.
      */
-    function processSubCmdDeleteSong($data)
+    private function processSubCmdDeleteSong($data)
     {
         $objectList = PersistentAbstraction::getObject(new FavListObject(), array(
             array('op1' => 'id_user', 'operator' => '=', 'op2' => $data['id']),
@@ -55,6 +57,10 @@ class FavListPlugin extends Plugin_Base
             $singleObject = $objectList[0];
             PersistentAbstraction::deleteObject($singleObject);
         }
+        else
+        {
+        	$this->printError();
+        }
     }
 
     /**
@@ -62,7 +68,7 @@ class FavListPlugin extends Plugin_Base
      * Subcommand URL : /api/favlist/{id_user}/add/{id_song}
      * @param array $data Associative array containing the user id, and song id to add.
      */    
-    function processSubCmdAddSong($data)
+    private function processSubCmdAddSong($data)
     {
       $favListItem = new FavListObject();
       $favListItem->createFromRaw('',$data['id'],$data['id_song']);
@@ -76,18 +82,33 @@ class FavListPlugin extends Plugin_Base
      * Subcommand URL : /api/favlist/{id_user}
      * @param array $data Associative array containing the user id.
      */    
-    function processSubCmdFavList($data)
+    private function processSubCmdFavList($data)
     {
-        $objectList = PersistentAbstraction::getObject(new FavListObject(), array(array('op1' => 'id_user', 'operator' => '=', 'op2' => $data['id'])));
+        $objectList = PersistentAbstraction::getObject(
+        		new FavListObject(), array(array('op1' => 'id_user', 'operator' => '=', 'op2' => $data['id'])));
         if($objectList)
         {
             $songList = array();
+            $songs_id = "";
             foreach ($objectList as $singleObject)
             {
-                $songList[] = $singleObject->printableFormat();
+            	$songs_id .= $singleObject->printableFormat()['id_song'].",";
+            }
+            /* Remove trailing ',' */
+			$songs_id = substr($songs_id, 0, -1);
+			$songObjectList = PersistentAbstraction::getObject(
+					new SongObject(), array(array('op1' => 'id', 'operator' => 'in', 'op2' => $songs_id)));
+            $songList = array();
+            foreach ($songObjectList as $song)
+            {
+                $songList[] = $song->printableFormat();
             }
             $this->printResult($songList);  
         }
+        else
+        {
+        	$this->printError();
+        }        
     }
 }
 

@@ -20,7 +20,7 @@ class MySQLConnector extends Connector_Base
 	* Constructor.
 	* Initialize the MySQL connection.
 	*/
-	function __construct()
+	public function __construct()
 	{
 		$this->_handler = new mysqli($this->_db_server, $this->_db_user, $this->_db_pwd, $this->_db_name);
 	}
@@ -28,12 +28,12 @@ class MySQLConnector extends Connector_Base
     /**
     * {@inheritDoc}
     */
-	function get(PersistentObject $persistentObject, array $params)
+	public function get(PersistentObject $persistentObject, array $params)
 	{
 		$where_clause = "1=1 AND ";
 		foreach ($params as $clause)
 		{
-			$where_clause .= $clause['op1']." ".$clause['operator']." ".$clause['op2']." AND ";
+			$where_clause .= $clause['op1']." ".$clause['operator']." (".$clause['op2'].") AND ";
 		}
 		$where_clause .= "1=1";
 		$result = $this->_handler->query("SELECT * FROM ".$persistentObject->getEntityName()." WHERE ".$where_clause);
@@ -48,16 +48,16 @@ class MySQLConnector extends Connector_Base
     /**
     * {@inheritDoc}
     */	
-	function delete(PersistentObject $persistentObject)
+	public function delete(PersistentObject $persistentObject)
 	{
-		$result = $this->_handler->query("DELETE * FROM ".$persistentObject->getEntityName()." WHERE id=".$persistentObject->getId());
+		$result = $this->_handler->query("DELETE FROM ".$persistentObject->getEntityName()." WHERE id=".$persistentObject->getId());
 		return $result;
 	}
 
     /**
     * {@inheritDoc}
     */
-	function add(PersistentObject $persistentObject)
+	public function add(PersistentObject $persistentObject)
 	{
 		$columns = "";
 		$values = "";

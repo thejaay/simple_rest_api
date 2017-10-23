@@ -13,31 +13,31 @@ abstract class PersistentObject
     * Get the name of that object.
     * @return String a string representing the entity.
     */
-	abstract protected function getEntityName();
+	abstract public function getEntityName();
 	
     /**
     * Get the object ID.
     * @return String a string representing the object identification.
     */
-    abstract protected function getId();
+    abstract public function getId();
     	
 	/**
 	* Create a new object.
 	* @param $params An associative array with object member and their value to be set.
 	*/
-	abstract protected function createObject($params);
+	abstract public function createObject($params);
 	
     /**
     * Get an array with all the object data.
     * @return Array an associative array with members and their data.
     */	
-	abstract protected function getDataArray();
+	abstract public function getDataArray();
 	
 	/**
 	* Get a printable format of this object (as an array).
 	* @return Array an associative array with all members and their data.
 	*/
-	abstract protected function printableFormat();
+	abstract public function printableFormat();
 }
 
 ?>

@@ -17,19 +17,19 @@ abstract class Connector_Base
     * @param $params a new instance of the class to be retrieved.
     * @return Array an array that contain all object that match $params requirements.
     */
-    abstract protected function get(PersistentObject $persistentObject, array $params);
+    abstract public function get(PersistentObject $persistentObject, array $params);
     
     /**
     * Delete an object from the database.
     * @param $persistentObject the object to be deleted.
     */
-    abstract protected function delete(PersistentObject $persistentObject);
+    abstract public function delete(PersistentObject $persistentObject);
     
     /**
     * Add an object from the database.
     * @param $persistentObject the object to be added.
     */    
-    abstract protected function add(PersistentObject $persistentObject);
+    abstract public function add(PersistentObject $persistentObject);
 }
 
 ?>
