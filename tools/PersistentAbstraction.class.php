@@ -59,7 +59,7 @@ class PersistentAbstraction
     */
 	public static function deleteObject(PersistentObject $persistentObject)
 	{
-		return PersistentAbstraction::getConnector()->delete($persistentObject, $params);
+		return PersistentAbstraction::getConnector()->delete($persistentObject);
 	}	
 }
 

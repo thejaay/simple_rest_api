@@ -46,8 +46,15 @@ class FavListPlugin extends Plugin_Base
      */
     function processSubCmdDeleteSong($data)
     {
-        echo "DELETE CHANSON:<br/>";
-        print_r($data);
+        $objectList = PersistentAbstraction::getObject(new FavListObject(), array(
+            array('op1' => 'id_user', 'operator' => '=', 'op2' => $data['id']),
+            array('op1' => 'id_song', 'operator' => '=', 'op2' => $data['id_song'])
+        ));
+        if($objectList)
+        {
+            $singleObject = $objectList[0];
+            PersistentAbstraction::deleteObject($singleObject);
+        }
     }
 
     /**
