@@ -1,5 +1,11 @@
 <?php 
 
+/**
+ * Represent a song object.
+ *
+ * @author Jaay
+ *
+ */
 class SongObject extends PersistentObject
 {
 	private $_entity_name = "songs";
@@ -9,6 +15,9 @@ class SongObject extends PersistentObject
 	private $_artist;
 	private $_length;
 
+    /**
+    * {@inheritDoc}
+    */
 	public function createObject($params)
 	{
 		$this->_id = $params['id'];
@@ -18,11 +27,25 @@ class SongObject extends PersistentObject
 		return $this;
 	}
 	
+    /**
+    * {@inheritDoc}
+    */	
 	public function getEntityName()
 	{
 		return $this->_entity_name;
 	}
 	
+    /**
+    * {@inheritDoc}
+    */  
+    public function getId()
+    {
+        return $this->_id;
+    }
+    	
+    /**
+    * {@inheritDoc}
+    */	
 	public function getDataArray()
 	{
 		return array(
@@ -31,6 +54,9 @@ class SongObject extends PersistentObject
 				'length' => $this->_length);
 	}
 	
+    /**
+    * {@inheritDoc}
+    */	
 	public function printableFormat()
 	{
 		return array(

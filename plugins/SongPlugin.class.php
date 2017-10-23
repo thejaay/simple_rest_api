@@ -12,32 +12,34 @@ require_once('/objects/SongObject.class.php');
  */
 class SongPlugin extends Plugin_Base
 {
-    /** Parameters for that command in the correct order
-     * http://....../api/song/id/(subcmd) */
-    private $_parameters_array = array ('id', 'subcmd');
 
+    /* Availables commands */
+    private $_commands = array (
+                /^(?P<id>[0-9]+)$/ => 'processSubCmdInfos'
+                );
+                
+    /**
+    * {@inheritDoc}
+    */                
     function processCommand($params)
     {
-      $data = explode("/", $params);
-      $data = Utils::combineParameters($data, $this->_parameters_array);
-      if(isset($data['subcmd']))
+      foreach(array_keys($this->_commands) as $regex)
       {
-	      switch($data['subcmd'])
-	      {
-	        default : 
-	            $this->processSubCmdInfos($data);break;
-	      }
+        $output = "";
+        preg_match($regex, $params, $output);
+        if(!empty($output))
+        {
+            $_commands[$regex]($output);
+            break;
+        }
       }
-      else
-      {
-      	$this->processSubCmdInfos($data);
-      }      
     }
 
     /**
      * Process the info subcommand.
-     * This is the default subcommand for /song/ command
-     * @param array $data Associative array containing the user id
+     * This will print informations about the song.
+     * Subcommand URL : /api/song/{id}
+     * @param array $data Associative array containing the song id.
      */
     function processSubCmdInfos($data)
     {

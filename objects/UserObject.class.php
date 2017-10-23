@@ -1,5 +1,11 @@
 <?php 
 
+/**
+ * Represents an user object.
+ *
+ * @author Jaay
+ *
+ */
 class UserObject extends PersistentObject
 {
 	private $_entity_name = "users";
@@ -8,6 +14,9 @@ class UserObject extends PersistentObject
 	private $_name;
 	private $_mail;
 
+    /**
+    * {@inheritDoc}
+    */
 	public function createObject($params)
 	{
 		$this->_id = $params['id'];
@@ -16,11 +25,25 @@ class UserObject extends PersistentObject
 		return $this;
 	}
 	
+    /**
+    * {@inheritDoc}
+    */	
 	public function getEntityName()
 	{
 		return $this->_entity_name;
 	}
 	
+	/**
+    * {@inheritDoc}
+    */  
+    public function getId()
+    {
+        return $this->_id;
+    }
+    
+    /**
+    * {@inheritDoc}
+    */	
 	public function getDataArray()
 	{
 		return array(
@@ -28,6 +51,9 @@ class UserObject extends PersistentObject
 				'mail' => $this->_mail);
 	}
 	
+    /**
+    * {@inheritDoc}
+    */	
 	public function printableFormat()
 	{
 		return array(

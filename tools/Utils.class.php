@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Class containing various handy functions
+ * Class containing various handy functions.
  * 
  * @author Jaay
  *
@@ -9,28 +9,13 @@
 class Utils
 {
 
-  /**
-   * Combine 2 array to make one associative array. This is used to fill parameters
-   * from a given URL
-   * 
-   * @param array $param Array containing the parameters
-   * @param array $keys Array containing the keys
-   * @return array Associative array combining the 2 arrays
-   */
-  public static function combineParameters($param, $keys)
-  {
-    $outputArray = array();
-    for($i = 0; $i < min(count($keys), count($param)); $i++)
+    /**
+    * Load all the needed classes, this method should be called upon startup.
+    */
+    public static function loadClasses()
     {
-      $outputArray[$keys[$i]] = $param[$i];
+        include("PersistentAbstraction.class.php");
     }
-    return $outputArray;
-  } 
-  
-  public static function loadClasses()
-  {
-  	include("PersistentAbstraction.class.php");
-  }
 }
 
 ?>

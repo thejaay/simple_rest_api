@@ -1,5 +1,11 @@
 <?php 
 
+/**
+ * Represent a favorites list oject.
+ *
+ * @author Jaay
+ *
+ */
 class FavListObject extends PersistentObject
 {
 	private $_entity_name = "favorite_songs";
@@ -7,9 +13,10 @@ class FavListObject extends PersistentObject
 	private $_id;
 	private $_id_user;
 	private $_id_song;
-
-	public function __constructor(){}
 	
+	/**
+    * Instantiate the object with raw data and not an array.
+    */
 	public function createFromRaw($id, $id_user, $id_song)
 	{
 		$this->_id = $id;
@@ -17,6 +24,9 @@ class FavListObject extends PersistentObject
 		$this->_id_song = $id_song;
 	}
 	
+    /**
+    * {@inheritDoc}
+    */	
 	public function createObject($params)
 	{
 		$this->_id = $params['id'];
@@ -25,16 +35,33 @@ class FavListObject extends PersistentObject
 		return $this;
 	}
 	
+    /**
+    * {@inheritDoc}
+    */	
 	public function getEntityName()
 	{
 		return $this->_entity_name;
 	}
 	
+    /**
+    * {@inheritDoc}
+    */  
+    public function getId()
+    {
+        return $this->_id;
+    }
+	
+    /**
+    * {@inheritDoc}
+    */	
 	public function getDataArray()
 	{
 		return array('id_user' => $this->_id_user, 'id_song' => $this->_id_song);
 	}
 	
+    /**
+    * {@inheritDoc}
+    */	
 	public function printableFormat()
 	{
 		return array(

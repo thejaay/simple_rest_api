@@ -31,9 +31,9 @@ else
 }
 
 /**
- * Autoload plugins in 'class' folder
+ * Autoload plugins in 'plugins' folder.
  * 
- * @param String $ClassName Name of the class to be loaded
+ * @param String $ClassName Name of the class to be loaded.
  */
 function __autoload($ClassName) {
     include('plugins/'.$ClassName.'.class.php');

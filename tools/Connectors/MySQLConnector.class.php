@@ -1,5 +1,11 @@
 <?php 
 
+/**
+ * Connector to MySQL.
+ *
+ * @author Jaay
+ *
+ */
 class MySQLConnector extends Connector_Base
 {
 
@@ -10,11 +16,18 @@ class MySQLConnector extends Connector_Base
 	
 	private $_handler;
 	
+	/**
+	* Constructor.
+	* Initialize the MySQL connection.
+	*/
 	function __construct()
 	{
 		$this->_handler = new mysqli($this->_db_server, $this->_db_user, $this->_db_pwd, $this->_db_name);
 	}
 
+    /**
+    * {@inheritDoc}
+    */
 	function get(PersistentObject $persistentObject, array $params)
 	{
 		$where_clause = "1=1 AND ";
@@ -32,18 +45,18 @@ class MySQLConnector extends Connector_Base
 		return $objects;
 	}
 	
-	function delete(PersistentObject $persistentObject, array $params)
+    /**
+    * {@inheritDoc}
+    */	
+	function delete(PersistentObject $persistentObject)
 	{
-		$where_clause = "1=1 AND ";
-		foreach ($params as $clause)
-		{
-			$where_clause .= $clause['op1']." ".$clause['operator']." ".$clause['op2']." AND ";
-		}
-		$where_clause .= "1=1";
-		$result = $this->_handler->query("DELETE * FROM ".$persistentObject->getEntityName()." WHERE ".$where_clause);
+		$result = $this->_handler->query("DELETE * FROM ".$persistentObject->getEntityName()." WHERE id=".$persistentObject->getId());
 		return $result;
 	}
 
+    /**
+    * {@inheritDoc}
+    */
 	function add(PersistentObject $persistentObject)
 	{
 		$columns = "";
@@ -56,9 +69,10 @@ class MySQLConnector extends Connector_Base
 		}
 		if($columns !== "" && $values !== "")
 		{
+            /* Remove the last ',' character from previous loop */
 			$columns = substr($columns, 0, -1);
 			$values = substr($values, 0, -1);
-			echo "INSERT INTO ".$persistentObject->getEntityName()."(".$columns.") VALUES (".$values.")";
+			
 			$result = $this->_handler->query("INSERT INTO ".$persistentObject->getEntityName()."(".$columns.") VALUES (".$values.")");
 			return $result;			
 		}
