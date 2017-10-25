@@ -25,14 +25,31 @@ abstract class Plugin_Base
     }
     
     /**
-    * Show the result in JSON format.
-    * @param $data An array containing the data to be displayed.
+    * Display an error message in JSON format.
     */
-    function printError()
+    function printError($message = "Requested item doesn't exists")
     {
       header("Content-type:application/json");
-      echo json_encode(array("error" => "Parameter is incorrect or the requested item doesn't exists"));
+      echo json_encode(array("error" => $message));
     }    
+    
+    /**
+    * Display an error message in JSON format if the URL if incorrect.
+    */
+    function printCmdError()
+    {
+      header("Content-type:application/json");
+      echo json_encode(array("error" => "Malformed URL"));
+    }    
+    
+    /**
+    * Display a success message in JSON format.
+    */
+    function printSuccess($message)
+    {
+      header("Content-type:application/json");
+      echo json_encode(array("success" => $message));
+    }      
 }
 
 ?>

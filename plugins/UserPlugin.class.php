@@ -24,9 +24,9 @@ class UserPlugin extends Plugin_Base
     */
     public function processCommand($params)
     {
+      $output = "";
       foreach(array_keys($this->_commands) as $regex)
       {
-        $output = "";
         preg_match($regex, $params, $output);
         if(!empty($output))
         {
@@ -34,6 +34,10 @@ class UserPlugin extends Plugin_Base
             $this->$function($output);
             break;
         }
+      }
+      if(empty($output))
+      {
+        $this->printCmdError();
       }
     }
 

@@ -28,9 +28,9 @@ class FavListPlugin extends Plugin_Base
     */
     public function processCommand($params)
     {
+      $output = "";
       foreach(array_keys($this->_commands) as $regex)
       {
-        $output = "";
         preg_match($regex, $params, $output);
         if(!empty($output))
         {
@@ -38,6 +38,10 @@ class FavListPlugin extends Plugin_Base
             $this->$function($output);
             break;
         }
+      }
+      if(empty($output))
+      {
+        $this->printCmdError();
       }
     }
 
@@ -55,7 +59,15 @@ class FavListPlugin extends Plugin_Base
         if($objectList)
         {
             $singleObject = $objectList[0];
-            PersistentAbstraction::deleteObject($singleObject);
+            $retval = PersistentAbstraction::deleteObject($singleObject);
+            if($retval)
+	      	{
+	      		$this->printSuccess("Song deleted from playlist");
+	      	}
+	      	else
+	      	{
+		        $this->printError();
+		    }                   
         }
         else
         {
@@ -73,7 +85,15 @@ class FavListPlugin extends Plugin_Base
       $favListItem = new FavListObject();
       $favListItem->createFromRaw('',$data['id'],$data['id_song']);
 
-      PersistentAbstraction::addObject($favListItem);
+      $retval = PersistentAbstraction::addObject($favListItem);
+      if($retval)
+      {
+      	$this->printSuccess("Song added to playlist");
+      }
+      else
+      {
+        $this->printError();
+      }       
     }
 
     /**
